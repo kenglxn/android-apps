@@ -20,5 +20,9 @@ public class Solver extends Activity {
         Log.d(TAG, "onCreate");
         int size = getIntent().getIntExtra(KEY_SIZE, 0);
         Log.d(TAG, "size="+GridSizes.charSequenceAt(size));
+
+        SolverView solverView = new SolverView(this);
+        setContentView(solverView);
+        solverView.requestFocus();
     }
 }
