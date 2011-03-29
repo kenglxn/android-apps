@@ -9,10 +9,8 @@ import android.util.Log;
 import android.view.View;
 
 public class MainActivity extends Activity implements View.OnClickListener {
-    public static final String TAG = "Main";
-    private static final CharSequence[] GRID_SIZES = new CharSequence[]{
-            "3 x 3"
-    };
+
+    private static final String TAG = MainActivity.class.getName();
 
     /**
      * Called when the activity is first created.
@@ -31,7 +29,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
     }
 
     public void onClick(View v) {
-        Log.d(TAG, "clicked " + v.getId());
         switch (v.getId()) {
             case R.id.about:
                 startActivity(new Intent(this, About.class));
@@ -50,8 +47,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private void newGridDialogue() {
         new AlertDialog.Builder(this)
                 .setTitle(R.string.newgrid_title)
-                .setItems(GRID_SIZES,
-                        new DialogInterface.OnClickListener() {
+                .setItems(GridSizes.charSequences(), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialoginterface, int i) {
                                 openGrid(i);
                             }
@@ -60,12 +56,15 @@ public class MainActivity extends Activity implements View.OnClickListener {
     }
 
     private void openGrid(int i) {
-        Log.d(TAG, "open grid " + GRID_SIZES[i]);
+        Log.d(TAG, "open grid " + GridSizes.charSequenceAt(i));
+        Intent intent = new Intent(MainActivity.this, Solver.class);
         switch (i) {
             case 0:
-                
+                intent.putExtra(Solver.KEY_SIZE, i);
+                startActivity(intent);
+                break;
             default:
-                Log.e(TAG, "no handler for grid " + GRID_SIZES[i]);
+                Log.e(TAG, "no handler for grid " + GridSizes.charSequenceAt(i));
         }
     }
 }
