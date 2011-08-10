@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="app_name">Sudoku Solver</string>
-    <string name="newgrid">New Grid</string>
-    <string name="newgrid_title">Select grid size</string>
-    <string name="about">About</string>
-    <string name="about_text">This app will let you plot in a Sudoku puzzle and solve it for you.</string>
-    <string name="exit">Exit</string>
-</resources>
