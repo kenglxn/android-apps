@@ -14,12 +14,12 @@ import java.util.List;
 
 public class NetworkListingAdapter extends ArrayAdapter<WifiConfiguration> {
     private final Context context;
-    private final WifiConfiguration[] networks;
+    private final List<WifiConfiguration> networks;
 
     public NetworkListingAdapter(Context context, List<WifiConfiguration> networks) {
         super(context, R.layout.list_row, networks);
         this.context = context;
-        this.networks = networks.toArray(new WifiConfiguration[networks.size()]);
+        this.networks = networks;
     }
 
     @Override
@@ -33,7 +33,7 @@ public class NetworkListingAdapter extends ArrayAdapter<WifiConfiguration> {
         TextView statusView = (TextView) rowView.findViewById(R.id.status);
         ImageButton toggleView = (ImageButton) rowView.findViewById(R.id.toggle);
 
-        WifiConfiguration network = networks[position];
+        WifiConfiguration network = networks.get(position);
 
         ssidView.setText(network.SSID);
         statusView.setText("" + WifiConfiguration.Status.strings[network.status]);
@@ -47,10 +47,10 @@ public class NetworkListingAdapter extends ArrayAdapter<WifiConfiguration> {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                WifiManager wifi = (WifiManager) getContext().getSystemService(Context.WIFI_SERVICE);
                 WifiConfiguration network = (WifiConfiguration) view.getTag();
-
                 network.hiddenSSID = !network.hiddenSSID;
+
+                WifiManager wifi = (WifiManager) getContext().getSystemService(Context.WIFI_SERVICE);
                 wifi.updateNetwork(network);
                 wifi.saveConfiguration();
 

@@ -11,7 +11,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HiddeSSIDEnablerActivity extends Activity {
+public class HiddenSSIDEnablerActivity extends Activity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
