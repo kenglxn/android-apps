@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/row_selector"
+                android:orientation="horizontal"
+                android:padding="5dip">
+
+    <TextView android:id="@+id/ssid"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="NETWORK SSID"
+              android:textColor="#cccccc"
+              android:typeface="sans"
+              android:textSize="15dip"
+              android:textStyle="bold"/>
+
+    <TextView android:id="@+id/status"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:layout_below="@id/ssid"
+              android:textColor="#aaaaaa"
+              android:textSize="10dip"
+              android:layout_marginTop="1dip"
+              android:text="not connected, not visible"/>
+
+    <ImageButton android:id="@+id/toggle"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:background="@android:color/black"
+                 android:src="@drawable/on"
+                 android:layout_alignParentRight="true"
+                 android:layout_centerVertical="true"
+                 android:contentDescription="toggle switch"/>
+
+</RelativeLayout>
