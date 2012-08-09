@@ -9,12 +9,14 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
 public class NetworkListingAdapter extends ArrayAdapter<WifiConfiguration> {
     private final Context context;
     private final List<WifiConfiguration> networks;
+    private final NetworkResolver networkResolver = new NetworkResolver();
 
     public NetworkListingAdapter(Context context, List<WifiConfiguration> networks) {
         super(context, R.layout.list_row, networks);
@@ -48,12 +50,20 @@ public class NetworkListingAdapter extends ArrayAdapter<WifiConfiguration> {
             @Override
             public void onClick(View view) {
                 WifiConfiguration network = (WifiConfiguration) view.getTag();
-                network.hiddenSSID = !network.hiddenSSID;
-
                 WifiManager wifi = (WifiManager) getContext().getSystemService(Context.WIFI_SERVICE);
-                wifi.updateNetwork(network);
-                wifi.saveConfiguration();
 
+                wifi.disconnect();
+                network.hiddenSSID = !network.hiddenSSID;
+                int updatedNetworkId = wifi.updateNetwork(network);
+                wifi.saveConfiguration();
+                wifi.enableNetwork(updatedNetworkId, true);
+                wifi.reconnect();
+
+                clear();
+                List<WifiConfiguration> potentiallyHiddenNetworks = networkResolver.getPotentiallyHiddenNetworks(getContext());
+                for (WifiConfiguration potentiallyHiddenNetwork : potentiallyHiddenNetworks) {
+                    add(potentiallyHiddenNetwork);
+                }
                 notifyDataSetChanged();
             }
         };
