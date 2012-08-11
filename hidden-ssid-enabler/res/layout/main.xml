@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
               android:orientation="vertical"
               android:layout_width="fill_parent"
               android:layout_height="fill_parent">
@@ -10,6 +11,14 @@
               android:divider="#b5b5b5"
               android:dividerHeight="1dp"
               android:listSelector="@drawable/list_selector"/>
+
+    <com.google.ads.AdView android:id="@+id/adView"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           ads:adUnitId="a15026990c9f8c0"
+                           ads:adSize="BANNER"
+                           ads:testDevices="TEST_EMULATOR, 61BF7DA88D62696218A35959F0C5242A"
+                           ads:loadAdOnCreate="true"/>
 
 </LinearLayout>
 
