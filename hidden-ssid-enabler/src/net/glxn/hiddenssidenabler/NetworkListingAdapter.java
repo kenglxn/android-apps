@@ -41,7 +41,7 @@ public class NetworkListingAdapter extends ArrayAdapter<WifiConfiguration> {
 
         ssidView.setText(network.SSID);
         statusView.setText(WifiConfiguration.Status.strings[network.status] + ", hiddenSSID:" + network.hiddenSSID);
-        toggleView.setImageResource(isCurrentNetwork(network) ? R.drawable.on : R.drawable.off);
+        toggleView.setImageResource(isCurrentNetwork(network) ? R.drawable.steel_on : R.drawable.steel_off);
 
         rowView.setTag(network);
         return rowView;

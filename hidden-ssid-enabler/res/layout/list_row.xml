@@ -27,8 +27,8 @@
     <ImageView android:id="@+id/toggle"
                  android:layout_width="wrap_content"
                  android:layout_height="wrap_content"
-                 android:background="@android:color/black"
-                 android:src="@drawable/on"
+                 android:background="@android:color/transparent"
+                 android:src="@drawable/steel_off"
                  android:layout_alignParentRight="true"
                  android:layout_centerVertical="true"
                  android:contentDescription="toggle switch"/>
