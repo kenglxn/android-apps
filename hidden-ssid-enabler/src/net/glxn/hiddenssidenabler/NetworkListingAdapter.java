@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -33,7 +33,7 @@ public class NetworkListingAdapter extends ArrayAdapter<WifiConfiguration> {
         View rowView = inflater.inflate(R.layout.list_row, parent, false);
         TextView ssidView = (TextView) rowView.findViewById(R.id.ssid);
         TextView statusView = (TextView) rowView.findViewById(R.id.status);
-        ImageButton toggleView = (ImageButton) rowView.findViewById(R.id.toggle);
+        ImageView toggleView = (ImageView) rowView.findViewById(R.id.toggle);
 
         rowView.setClickable(true);
         rowView.setOnClickListener(clickListener);
