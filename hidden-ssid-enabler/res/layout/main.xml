@@ -5,13 +5,6 @@
               android:layout_width="fill_parent"
               android:layout_height="fill_parent">
 
-    <ListView android:id="@+id/list"
-              android:layout_width="fill_parent"
-              android:layout_height="wrap_content"
-              android:divider="#b5b5b5"
-              android:dividerHeight="1dp"
-              android:listSelector="@drawable/list_selector"/>
-
     <com.google.ads.AdView android:id="@+id/adView"
                            android:layout_width="wrap_content"
                            android:layout_height="wrap_content"
@@ -19,6 +12,13 @@
                            ads:adSize="BANNER"
                            ads:testDevices="TEST_EMULATOR, 61BF7DA88D62696218A35959F0C5242A"
                            ads:loadAdOnCreate="true"/>
+
+    <ListView android:id="@+id/list"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:divider="#b5b5b5"
+              android:dividerHeight="1dp"
+              android:listSelector="@drawable/list_selector"/>
 
 </LinearLayout>
 
