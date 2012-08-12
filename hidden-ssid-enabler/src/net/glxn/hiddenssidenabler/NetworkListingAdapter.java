@@ -16,13 +16,13 @@ import java.util.List;
 public class NetworkListingAdapter extends ArrayAdapter<WifiConfiguration> {
 
     private final Context context;
-    final ClickListener clickListener;
+    final NetworkConfigureClickListener networkConfigureClickListener;
 
     public NetworkListingAdapter(Context context, List<WifiConfiguration> networks) {
         super(context, R.layout.list_row, networks);
         this.context = context;
         setNotifyOnChange(true);
-        clickListener = new ClickListener(this);
+        networkConfigureClickListener = new NetworkConfigureClickListener(this);
     }
 
     @Override
@@ -37,7 +37,7 @@ public class NetworkListingAdapter extends ArrayAdapter<WifiConfiguration> {
         ImageView toggleView = (ImageView) rowView.findViewById(R.id.toggle);
 
         rowView.setClickable(true);
-        rowView.setOnClickListener(clickListener);
+        rowView.setOnClickListener(networkConfigureClickListener);
 //        rowView.setOnLongClickListener(); TODO: give options here? e.g. delete
 
         ssidView.setText(network.SSID);

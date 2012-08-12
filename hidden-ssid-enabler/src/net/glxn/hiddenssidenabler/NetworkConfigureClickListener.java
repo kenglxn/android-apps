@@ -6,11 +6,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-public class ClickListener implements View.OnClickListener {
+public class NetworkConfigureClickListener implements View.OnClickListener {
     private final NetworkListingAdapter networkListingAdapter;
     private final WifiManager wifiManager;
 
-    public ClickListener(NetworkListingAdapter networkListingAdapter) {
+    public NetworkConfigureClickListener(NetworkListingAdapter networkListingAdapter) {
         this.networkListingAdapter = networkListingAdapter;
         wifiManager = networkListingAdapter.getWifiManager();
     }
