@@ -4,48 +4,72 @@ import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 public class ClickListener implements View.OnClickListener {
     private final NetworkListingAdapter networkListingAdapter;
+    private final WifiManager wifiManager;
 
     public ClickListener(NetworkListingAdapter networkListingAdapter) {
         this.networkListingAdapter = networkListingAdapter;
+        wifiManager = networkListingAdapter.getWifiManager();
     }
 
     public void onClick(View view) {
         WifiConfiguration network = (WifiConfiguration) view.getTag();
-        WifiManager wifi = networkListingAdapter.getWifiManager();
 
-        network.hiddenSSID = !network.hiddenSSID;
-        wifi.updateNetwork(network);
-        wifi.saveConfiguration();
-        boolean isCurrent = networkListingAdapter.isCurrentNetwork(network);
-        if (isCurrent) {
-            wifi.disableNetwork(network.networkId);
+        toggleHiddenSSID(network);
+
+        boolean connectedToNetwork = networkListingAdapter.isCurrentNetwork(network);
+        if (connectedToNetwork) {
+            wifiManager.disableNetwork(network.networkId);
         } else {
-            wifi.enableNetwork(network.networkId, true);
-            wifi.reconnect();
+            forceConnection(network);
         }
-        waitForStateChange(network, isCurrent, networkListingAdapter);
-        rebuildList(networkListingAdapter);
+
+        rebuildNetworkList();
     }
 
-    void rebuildList(NetworkListingAdapter networkListingAdapter) {
+    private void toggleHiddenSSID(WifiConfiguration network) {
+        network.hiddenSSID = !network.hiddenSSID;
+        wifiManager.updateNetwork(network);
+        wifiManager.saveConfiguration();
+    }
+
+    private void forceConnection(WifiConfiguration network) {
+        networkListingAdapter.makeToast("Connecting...", Toast.LENGTH_SHORT);
+        wifiManager.enableNetwork(network.networkId, true);
+        wifiManager.reconnect();
+        waitForConnection(network);
+    }
+
+    private void waitForConnection(WifiConfiguration network) {
+        int count = 0;
+        while (!networkListingAdapter.isCurrentNetwork(network) && count != 20) {
+            Log.i(NetworkListingAdapter.class.getName(), "waiting for connection to " + network.SSID + "count=" + count);
+            sleep();
+
+            count++;
+            if(count == 20) {
+                String message = "Unable to connect to " + network.SSID + ". Please check SSID spelling and credentials..";
+                networkListingAdapter.makeToast(message, Toast.LENGTH_LONG);
+            }
+        }
+    }
+
+    private void sleep() {
+        int ms = 100;
+        try {
+            Thread.sleep(ms);
+        } catch (InterruptedException ignored) {
+        }
+    }
+
+    void rebuildNetworkList() {
         networkListingAdapter.clear();
-        for (WifiConfiguration configuredNetwork : networkListingAdapter.getWifiManager().getConfiguredNetworks()) {
+        for (WifiConfiguration configuredNetwork : wifiManager.getConfiguredNetworks()) {
             networkListingAdapter.add(configuredNetwork);
         }
     }
 
-    void waitForStateChange(WifiConfiguration network, boolean current, NetworkListingAdapter networkListingAdapter) {
-        int count = 0;
-        while (networkListingAdapter.isCurrentNetwork(network) == current && count != 20) {
-            Log.i(NetworkListingAdapter.class.getName(), "waiting for state change...");
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException ignored) {
-            }
-            count++;
-        }
-    }
 }

@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -56,4 +57,7 @@ public class NetworkListingAdapter extends ArrayAdapter<WifiConfiguration> {
         return ((WifiManager) context.getSystemService(Context.WIFI_SERVICE));
     }
 
+    public void makeToast(String message, int duration) {
+        Toast.makeText(context, message, duration).show();
+    }
 }
