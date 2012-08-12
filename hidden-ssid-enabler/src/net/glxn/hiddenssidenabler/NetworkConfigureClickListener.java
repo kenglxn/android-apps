@@ -2,7 +2,6 @@ package net.glxn.hiddenssidenabler;
 
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -20,14 +19,14 @@ public class NetworkConfigureClickListener implements View.OnClickListener {
 
         toggleHiddenSSID(network);
 
-        boolean connectedToNetwork = networkListingAdapter.isCurrentNetwork(network);
+        boolean connectedToNetwork = isCurrentNetwork(network);
         if (connectedToNetwork) {
             wifiManager.disableNetwork(network.networkId);
         } else {
             forceConnection(network);
         }
 
-        rebuildNetworkList();
+        networkListingAdapter.rebuildNetworkList();
     }
 
     private void toggleHiddenSSID(WifiConfiguration network) {
@@ -38,38 +37,18 @@ public class NetworkConfigureClickListener implements View.OnClickListener {
 
     private void forceConnection(WifiConfiguration network) {
         networkListingAdapter.makeToast("Connecting...", Toast.LENGTH_SHORT);
+
         wifiManager.enableNetwork(network.networkId, true);
-        wifiManager.reconnect();
-        waitForConnection(network);
-    }
+        boolean reconnected = wifiManager.reconnect();
 
-    private void waitForConnection(WifiConfiguration network) {
-        int count = 0;
-        while (!networkListingAdapter.isCurrentNetwork(network) && count != 20) {
-            Log.i(NetworkListingAdapter.class.getName(), "waiting for connection to " + network.SSID + "count=" + count);
-            sleep();
-
-            count++;
-            if(count == 20) {
-                String message = "Unable to connect to " + network.SSID + ". Please check SSID spelling and credentials..";
-                networkListingAdapter.makeToast(message, Toast.LENGTH_LONG);
-            }
+        if(!reconnected) {
+            //TODO: IF was unable to connect, need a futuretask for this?
+            networkListingAdapter.makeToast("Unable to connect to " + network.SSID + ". Please check SSID spelling and credentials", Toast.LENGTH_LONG);
         }
     }
 
-    private void sleep() {
-        int ms = 100;
-        try {
-            Thread.sleep(ms);
-        } catch (InterruptedException ignored) {
-        }
-    }
-
-    void rebuildNetworkList() {
-        networkListingAdapter.clear();
-        for (WifiConfiguration configuredNetwork : wifiManager.getConfiguredNetworks()) {
-            networkListingAdapter.add(configuredNetwork);
-        }
+    private boolean isCurrentNetwork(WifiConfiguration network) {
+        return networkListingAdapter.isCurrentNetwork(network);
     }
 
 }

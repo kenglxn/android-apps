@@ -20,9 +20,11 @@ public class NetworkListingAdapter extends ArrayAdapter<WifiConfiguration> {
 
     public NetworkListingAdapter(Context context, List<WifiConfiguration> networks) {
         super(context, R.layout.list_row, networks);
+
         this.context = context;
         setNotifyOnChange(true);
         networkConfigureClickListener = new NetworkConfigureClickListener(this);
+
     }
 
     @Override
@@ -59,5 +61,12 @@ public class NetworkListingAdapter extends ArrayAdapter<WifiConfiguration> {
 
     public void makeToast(String message, int duration) {
         Toast.makeText(context, message, duration).show();
+    }
+
+    void rebuildNetworkList() {
+        clear();
+        for (WifiConfiguration configuredNetwork : getWifiManager().getConfiguredNetworks()) {
+            add(configuredNetwork);
+        }
     }
 }

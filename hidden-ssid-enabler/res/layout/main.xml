@@ -10,8 +10,8 @@
                            android:layout_height="wrap_content"
                            ads:adUnitId="a15026990c9f8c0"
                            ads:adSize="BANNER"
-                           ads:testDevices="TEST_EMULATOR, 61BF7DA88D62696218A35959F0C5242A"
-                           ads:loadAdOnCreate="true"/>
+                           ads:loadAdOnCreate="true"
+                           ads:testDevices="TEST_EMULATOR, 61BF7DA88D62696218A35959F0C5242A"/>
 
     <ListView android:id="@+id/list"
               android:layout_width="fill_parent"
